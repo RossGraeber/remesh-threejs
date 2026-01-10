@@ -1,8 +1,9 @@
 import type { NonManifoldMesh } from './NonManifoldMesh';
 import type { Vertex } from './Vertex';
 import type { Edge } from './Edge';
-import { SkeletonSegment } from '../skeleton/SkeletonSegment';
-import { SkeletonBuilder, type SkeletonBuildResult } from '../skeleton/SkeletonBuilder';
+import type { SkeletonBuildResult } from '../skeleton/SkeletonBuilder';
+import type { SkeletonSegment } from '../skeleton/SkeletonSegment';
+import { SkeletonBuilder } from '../skeleton/SkeletonBuilder';
 import type { SegmentId } from '../types/MeshData';
 import type { Vec3 } from '../geometry/GeometricUtils';
 

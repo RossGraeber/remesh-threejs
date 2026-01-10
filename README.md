@@ -1,5 +1,10 @@
 # remesh-threejs
 
+[![npm version](https://img.shields.io/npm/v/remesh-threejs.svg)](https://www.npmjs.com/package/remesh-threejs)
+[![npm downloads](https://img.shields.io/npm/dm/remesh-threejs.svg)](https://www.npmjs.com/package/remesh-threejs)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://github.com/RossGraeber/remesh-threejs/workflows/CI/badge.svg)](https://github.com/RossGraeber/remesh-threejs/actions)
+
 TypeScript library for adaptive remeshing of non-manifold surfaces using Three.js.
 
 Based on the EUROGRAPHICS 2008 paper ["Adaptive Remeshing of Non-Manifold Surfaces"](https://doi.org/10.1111/j.1467-8659.2008.01285.x) by Zilske, Lamecker, and Zachow.
@@ -239,6 +244,27 @@ The library includes comprehensive tests covering:
 - Full remeshing pipeline integration
 
 Run `npm run test:coverage` to see the detailed coverage report.
+
+## Publishing
+
+See [PUBLISHING.md](PUBLISHING.md) for detailed instructions on publishing new versions to npm.
+
+### Quick Publish Steps
+
+1. Update version: `npm version patch|minor|major`
+2. Push: `git push && git push --tags`
+3. Create GitHub release
+4. Automated CI/CD publishes to npm
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
