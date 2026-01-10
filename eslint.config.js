@@ -7,6 +7,15 @@ import globals from "globals";
 export default [
   eslint.configs.recommended,
   {
+    files: ['**/*.js'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+    },
+  },
+  {
     files: ['src/**/*.ts'],
     languageOptions: {
       parser: tsparser,
@@ -15,12 +24,6 @@ export default [
         sourceType: 'module',
         project: './tsconfig.json',
       },
-    },
-    files: ["**/*.js"],
-    languageOptions: {
-        globals: {
-            ...globals.browser,
-        }
     },
     plugins: {
       '@typescript-eslint': tseslint,
@@ -39,6 +42,7 @@ export default [
         { prefer: 'type-imports' },
       ],
       'no-console': ['warn', { allow: ['warn', 'error'] }],
+      'no-undef': 'off', // TypeScript handles this
     },
   },
   {
