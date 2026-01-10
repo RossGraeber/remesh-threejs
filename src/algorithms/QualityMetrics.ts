@@ -4,6 +4,31 @@ import type { Edge } from '../core/Edge';
 import type { Vertex } from '../core/Vertex';
 
 /**
+ * Safe min/max functions that work with large arrays.
+ * Math.min(...array) and Math.max(...array) cause stack overflow on large arrays
+ * because spreading uses the call stack for arguments.
+ */
+function safeMin(arr: number[]): number {
+  if (arr.length === 0) return 0;
+  let min = arr[0]!;
+  for (let i = 1; i < arr.length; i++) {
+    const val = arr[i]!;
+    if (val < min) min = val;
+  }
+  return min;
+}
+
+function safeMax(arr: number[]): number {
+  if (arr.length === 0) return 0;
+  let max = arr[0]!;
+  for (let i = 1; i < arr.length; i++) {
+    const val = arr[i]!;
+    if (val > max) max = val;
+  }
+  return max;
+}
+
+/**
  * Quality statistics for a mesh.
  */
 export interface MeshQualityStats {
@@ -70,9 +95,9 @@ export function computeMeshQuality(
   // Edge lengths
   const edgeLengths = edges.map((e) => e.length);
 
-  // Compute stats
-  const minQuality = qualities.length > 0 ? Math.min(...qualities) : 0;
-  const maxQuality = qualities.length > 0 ? Math.max(...qualities) : 0;
+  // Compute stats (use safe min/max to avoid stack overflow on large arrays)
+  const minQuality = safeMin(qualities);
+  const maxQuality = safeMax(qualities);
   const averageQuality =
     qualities.length > 0 ? qualities.reduce((a, b) => a + b, 0) / qualities.length : 0;
 
@@ -84,13 +109,13 @@ export function computeMeshQuality(
 
   const poorQualityCount = qualities.filter((q) => q < poorQualityThreshold).length;
 
-  const minEdgeLength = edgeLengths.length > 0 ? Math.min(...edgeLengths) : 0;
-  const maxEdgeLength = edgeLengths.length > 0 ? Math.max(...edgeLengths) : 0;
+  const minEdgeLength = safeMin(edgeLengths);
+  const maxEdgeLength = safeMax(edgeLengths);
   const averageEdgeLength =
     edgeLengths.length > 0 ? edgeLengths.reduce((a, b) => a + b, 0) / edgeLengths.length : 0;
 
-  const minArea = areas.length > 0 ? Math.min(...areas) : 0;
-  const maxArea = areas.length > 0 ? Math.max(...areas) : 0;
+  const minArea = safeMin(areas);
+  const maxArea = safeMax(areas);
   const totalArea = areas.reduce((a, b) => a + b, 0);
 
   return {
@@ -196,8 +221,9 @@ export function computeTriangleAspectRatio(face: Face): number | null {
   }
 
   const lengths = halfedges.map((he) => he.edge.length);
-  const minLen = Math.min(...lengths);
-  const maxLen = Math.max(...lengths);
+  // Note: This is only 3 elements, but use safe functions for consistency
+  const minLen = safeMin(lengths);
+  const maxLen = safeMax(lengths);
 
   if (minLen < 1e-10) {
     return Infinity;
