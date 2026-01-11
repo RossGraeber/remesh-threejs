@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://github.com/RossGraeber/remesh-threejs/workflows/CI/badge.svg)](https://github.com/RossGraeber/remesh-threejs/actions)
 
-TypeScript library for reapir and remeshing of non-manifold surfaces using Three.js.
+TypeScript library for repair and remeshing of non-manifold surfaces using Three.js.
 
 Based on the EUROGRAPHICS 2008 paper ["Adaptive Remeshing of Non-Manifold Surfaces"](https://doi.org/10.1111/j.1467-8659.2008.01285.x) by Zilske, Lamecker, and Zachow.
 
