@@ -187,3 +187,24 @@ export {
   remesh,
   createRemesher,
 } from './algorithms';
+
+// Mesh repair APIs
+export type {
+  RepairOptions,
+  RepairStats,
+  RepairResult,
+  OperationStats,
+  DefectInfo,
+} from './repair';
+
+export {
+  MeshRepairer,
+  repairMesh,
+  removeIsolatedVertices,
+  removeDegenerateFaces,
+  removeDuplicateFaces,
+  RepairOperation,
+  IsolatedVertexRepair,
+  DegenerateFaceRepair,
+  DuplicateFaceRepair,
+} from './repair';
