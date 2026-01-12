@@ -9,7 +9,8 @@
       "Bash(npx vitest run)",
       "Bash(npx vitest run --reporter=basic)",
       "Bash(npx vitest:*)",
-      "Bash(npm run validate:*)"
+      "Bash(npm run validate:*)",
+      "Bash(npm run test:run:*)"
     ]
   }
 }

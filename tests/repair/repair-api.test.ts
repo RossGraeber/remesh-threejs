@@ -101,7 +101,7 @@ describe('Repair API', () => {
       const repairer = new MeshRepairer(geometry);
       const stats = repairer.repairAll().execute();
 
-      expect(stats.operations.length).toBe(3);
+      expect(stats.operations.length).toBe(5);
       expect(stats.success).toBe(true);
     });
 
@@ -186,7 +186,7 @@ describe('Repair API', () => {
       const result = repairMesh(geometry);
 
       expect(result.geometry).toBeInstanceOf(BufferGeometry);
-      expect(result.stats.operations.length).toBe(3);
+      expect(result.stats.operations.length).toBe(5);
       expect(result.stats.totalDefectsFixed).toBeGreaterThan(0);
     });
 

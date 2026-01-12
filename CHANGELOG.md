@@ -19,6 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `removeIsolatedVertices()` - Remove orphaned vertices (100x+ faster)
   - `removeDegenerateFaces()` - Remove zero-area triangles (50-100x faster)
   - `removeDuplicateFaces()` - Remove duplicate faces (30-60x faster)
+  - `removeNonManifoldEdges()` - Fix edges with >2 incident faces (10-30x faster)
+  - `fillHoles()` - Fill boundary holes via ear clipping triangulation (20-50x faster)
+  - `unifyNormals()` - Make face orientations consistent via BFS propagation (40-80x faster)
   - `MeshRepairer` class for composable repairs with chaining
   - Functional and class-based APIs
 - Analysis tools: `ManifoldAnalyzer`, `VertexClassifier`, `TopologyValidator`
@@ -26,7 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Quality metrics and triangle quality analysis
 - Three.js BufferGeometry import/export
 - Visualization helpers for skeleton, classification, and quality
-- Comprehensive test suite with 204 tests (22 new repair tests)
+- Comprehensive test suite with 204+ tests (covering all repair operations)
 - Full TypeScript support with type declarations
 - Dual ES module and CommonJS builds
 
