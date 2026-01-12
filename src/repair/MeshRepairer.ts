@@ -7,6 +7,12 @@ import type { RepairOperation } from './operations/RepairOperation';
 import { IsolatedVertexRepair } from './operations/IsolatedVertexRepair';
 import { DegenerateFaceRepair } from './operations/DegenerateFaceRepair';
 import { DuplicateFaceRepair } from './operations/DuplicateFaceRepair';
+import {
+  NonManifoldEdgeRepair,
+  type NonManifoldRepairStrategy,
+} from './operations/NonManifoldEdgeRepair';
+import { HoleFiller } from './operations/HoleFiller';
+import { NormalUnifier } from './operations/NormalUnifier';
 
 /**
  * Advanced mesh repair with fine-grained control and composition.
@@ -89,14 +95,46 @@ export class MeshRepairer {
   }
 
   /**
+   * Remove non-manifold edges by splitting or collapsing.
+   * @param strategy - Repair strategy: 'split', 'collapse', or 'auto' (default: 'auto')
+   * @returns this for chaining
+   */
+  removeNonManifoldEdges(strategy?: NonManifoldRepairStrategy): this {
+    this.operations.push(new NonManifoldEdgeRepair(this.mesh, this.options.verbose, strategy));
+    return this;
+  }
+
+  /**
+   * Fill boundary loops (holes) with triangulation.
+   * @param maxHoleSize - Maximum number of edges in a hole to fill (default: 100)
+   * @returns this for chaining
+   */
+  fillHoles(maxHoleSize?: number): this {
+    this.operations.push(new HoleFiller(this.mesh, this.options.verbose, maxHoleSize));
+    return this;
+  }
+
+  /**
+   * Unify face orientations to make normals consistent.
+   * @param seedFaceIndex - Index of the face to use as orientation reference (default: 0)
+   * @returns this for chaining
+   */
+  unifyNormals(seedFaceIndex?: number): this {
+    this.operations.push(new NormalUnifier(this.mesh, this.options.verbose, seedFaceIndex));
+    return this;
+  }
+
+  /**
    * Run all common repairs in optimal order.
    * @returns this for chaining
    */
   repairAll(): this {
-    // Optimal order: isolated vertices -> duplicates -> degenerates
+    // Optimal order: isolated vertices -> duplicates -> degenerates -> holes -> normals
     this.removeIsolatedVertices();
     this.removeDuplicateFaces();
     this.removeDegenerateFaces();
+    this.fillHoles();
+    this.unifyNormals();
     return this;
   }
 

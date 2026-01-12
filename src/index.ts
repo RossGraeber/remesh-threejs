@@ -195,6 +195,7 @@ export type {
   RepairResult,
   OperationStats,
   DefectInfo,
+  NonManifoldRepairStrategy,
 } from './repair';
 
 export {
@@ -203,8 +204,14 @@ export {
   removeIsolatedVertices,
   removeDegenerateFaces,
   removeDuplicateFaces,
+  removeNonManifoldEdges,
+  fillHoles,
+  unifyNormals,
   RepairOperation,
   IsolatedVertexRepair,
   DegenerateFaceRepair,
   DuplicateFaceRepair,
+  NonManifoldEdgeRepair,
+  HoleFiller,
+  NormalUnifier,
 } from './repair';

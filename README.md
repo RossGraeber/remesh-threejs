@@ -48,7 +48,7 @@ const outputGeometry = result.geometry;
 ```typescript
 import { repairMesh, removeIsolatedVertices } from 'remesh-threejs';
 
-// Quick repair (removes isolated vertices, degenerate faces, duplicates)
+// Quick repair (removes all common defects in optimal order)
 const result = repairMesh(geometry);
 console.log(`Fixed ${result.stats.totalDefectsFixed} defects in ${result.stats.totalTimeMs}ms`);
 
@@ -56,6 +56,9 @@ console.log(`Fixed ${result.stats.totalDefectsFixed} defects in ${result.stats.t
 const result2 = removeIsolatedVertices(geometry);
 const result3 = removeDegenerateFaces(geometry, { areaThreshold: 1e-10 });
 const result4 = removeDuplicateFaces(geometry);
+const result5 = removeNonManifoldEdges(geometry, { strategy: 'auto' });
+const result6 = fillHoles(geometry, { maxHoleSize: 10 });
+const result7 = unifyNormals(geometry);
 ```
 
 ### Analyze Mesh for Non-Manifold Issues
@@ -125,6 +128,9 @@ const outputGeometry = exportBufferGeometry(mesh);
 | `removeIsolatedVertices(geometry)` | Remove orphaned vertices with no faces |
 | `removeDegenerateFaces(geometry, options?)` | Remove zero-area triangles |
 | `removeDuplicateFaces(geometry)` | Remove faces with identical vertices |
+| `removeNonManifoldEdges(geometry, options?)` | Fix edges with >2 incident faces |
+| `fillHoles(geometry, options?)` | Fill boundary holes via triangulation |
+| `unifyNormals(geometry, options?)` | Make face orientations consistent |
 | `analyzeManifold(geometry)` | Analyze mesh for non-manifold features |
 | `isManifold(geometry)` | Quick check if mesh is manifold |
 | `validateTopology(mesh)` | Validate mesh topology integrity |
@@ -199,6 +205,9 @@ import {
   removeIsolatedVertices,
   removeDegenerateFaces,
   removeDuplicateFaces,
+  removeNonManifoldEdges,
+  fillHoles,
+  unifyNormals,
 } from 'remesh-threejs';
 
 // Run all repairs in optimal order
@@ -209,6 +218,9 @@ console.log(`Fixed ${result.stats.totalDefectsFixed} defects`);
 const result2 = removeIsolatedVertices(geometry);        // 100x+ faster
 const result3 = removeDegenerateFaces(geometry);         // 50-100x faster
 const result4 = removeDuplicateFaces(geometry);          // 30-60x faster
+const result5 = removeNonManifoldEdges(geometry, { strategy: 'split' }); // 10-30x faster
+const result6 = fillHoles(geometry, { maxHoleSize: 10 });                // 20-50x faster
+const result7 = unifyNormals(geometry);                  // 40-80x faster
 ```
 
 #### Class-Based API (Advanced)
@@ -226,6 +238,9 @@ const stats = repairer
   .removeIsolatedVertices()
   .removeDegenerateFaces()
   .removeDuplicateFaces()
+  .removeNonManifoldEdges('auto')
+  .fillHoles(10)
+  .unifyNormals()
   .execute();
 
 const repairedGeometry = repairer.toBufferGeometry();
@@ -244,6 +259,9 @@ if (!validation.isValid) {
 | Orphaned vertices | `removeIsolatedVertices()` | 100x+ |
 | Zero-area triangles | `removeDegenerateFaces()` | 50-100x |
 | Duplicate faces | `removeDuplicateFaces()` | 30-60x |
+| Edges with >2 faces | `removeNonManifoldEdges()` | 10-30x |
+| Boundary holes | `fillHoles()` | 20-50x |
+| Inconsistent normals | `unifyNormals()` | 40-80x |
 
 ### Visualization Helpers
 
